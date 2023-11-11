@@ -3,24 +3,16 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import make_pipeline
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
-import pickle  # Saving a trained ML model
+import pickle
 
-# Loading the data
 
 df = pd.read_csv("output.csv")
-
-
-# Creating Train - Test - Validation set
 
 def train_test_val_split(dataset):
     X = df.drop(columns=['name_en', 'name_sa', 'unnamed: 0'])
     y = df['name_en']
 
-    # First split: train/test - validation set
-
     X_model, X_valid, y_model, y_valid = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)
-
-    # Second split: train - test set
 
     X_train, X_test, y_train, y_test = train_test_split(X_model,
                                                         y_model,
@@ -32,13 +24,11 @@ def train_test_val_split(dataset):
 
 X_train, X_test, X_valid, y_train, y_test, y_valid = train_test_val_split(df)
 
-# Pipeline
 
 pipelines = {
     'rf': make_pipeline(RandomForestClassifier()),
     'gb': make_pipeline(GradientBoostingClassifier()),
 }
-
 
 # Fitting the models
 
@@ -53,8 +43,6 @@ def fitting_models(X_train, y_train):
 
 fit_models = fitting_models(X_train, y_train)
 
-
-# Metrics
 
 def evaluation_metrics(fit_models, X_test, y_test, X_valid, y_valid):
     for classifier in fit_models:
@@ -92,8 +80,6 @@ def evaluation_metrics(fit_models, X_test, y_test, X_valid, y_valid):
 
 
 evaluation_metrics(fit_models, X_test, y_test, X_valid, y_valid)
-
-# Selecting and saving the best model
 
 best_classifier = fit_models[0]
 

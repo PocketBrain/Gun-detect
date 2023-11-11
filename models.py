@@ -5,12 +5,12 @@ from ultralytics import YOLO
 
 class YOLOMODEL:
     def __init__(self, weights_path: str):
-        self.model = YOLO(model=weights_path, task='detect')
-        self.model_pose = YOLO(model='./weights/yolov8n-pose.pt')
+        self.model = YOLO(model=weights_path, task='detect') # Модель для детекции
+        self.model_pose = YOLO(model='./weights/yolov8n-pose.pt') # Модель для поиска ключевых точек у человека(голова, руки, ноги, плечи)
 
     def predict(self, image) -> Tuple:
-        results = self.model.predict(image, device='cpu', stream=True)
-        results_pose = self.model_pose.predict(image, device='cpu', conf=0.3,  imgsz=600, stream=True, boxes=False)
+        results = self.model.predict(image, conf=0.4, device='cpu', stream=True)
+        results_pose = self.model_pose.predict(image, device='cpu', conf=0.5,  imgsz=600, stream=True, boxes=False)
         keypoints = []
         for r in results_pose:
             keypoint = r.keypoints.xy.numpy()
