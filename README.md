@@ -1,9 +1,3 @@
-
-<div align="center">
-  <a>
-    <img src="images/logo.jpg" alt="Logo" width="150" height="150">
-  </a>
-</div>
 <h1 align="center">Детекция оружия и вооруженных людей</h1>
 <h2 align="center">Spect team </h2>
 
